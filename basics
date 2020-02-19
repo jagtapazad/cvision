@@ -1,0 +1,63 @@
+#include"opencv2/highgui/highgui.hpp"
+#include"opencv2/core/core.hpp"
+#include"opencv2/imgproc/imgproc.hpp"
+#include<iostream>
+using namespace cv;
+using namespace std;
+int main()
+
+{
+Mat a=imread("aaa.jpg",1);
+//imshow("IMG",a)
+//waitKey(2000); //0 for infinite 
+int i,j;
+
+
+
+int r1=50,g1=50,b1=50,r2=50,g2=50,b2=50;
+
+namedWindow("IMG1",WINDOW_NORMAL);
+Mat d(a.rows,a.cols,CV_8UC3,Scalar(255));
+createTrackbar("red l","IMG1",&r1,255);
+createTrackbar("red u","IMG1",&r2,255);
+createTrackbar("blue l","IMG1",&b1,255);
+createTrackbar("blue u","IMG1",&b2,255);
+createTrackbar("green l","IMG1",&g1,255);
+createTrackbar("green u","IMG1",&g2,255);
+	while(1)
+	{
+
+
+		for(i=0;i<a.rows;i++)
+		{
+			for(j=0;j<a.cols;j++)
+			{
+				if(a.at<Vec3b>(i,j)[2]<=r1&&a.at<Vec3b>(i,j)[2]>=r2)
+				{
+					if(a.at<Vec3b>(i,j)[0]<=b1&&a.at<Vec3b>(i,j)[0]>=b2)
+					{
+						if(a.at<Vec3b>(i,j)[1]<=g1&&a.at<Vec3b>(i,j)[1]>=g2)
+						{
+				          {
+					 d.at<Vec3b>(i,j)[2]=a.at<Vec3b>(i,j)[2];
+					 d.at<Vec3b>(i,j)[0]=a.at<Vec3b>(i,j)[0];				
+					 d.at<Vec3b>(i,j)[1]=a.at<Vec3b>(i,j)[1];
+
+				          }				
+						}else
+				{d.at<Vec3b>(i,j)[2]=0;d.at<Vec3b>(i,j)[1]=0;d.at<Vec3b>(i,j)[0]=0;} 
+					}else
+				{d.at<Vec3b>(i,j)[2]=0;d.at<Vec3b>(i,j)[1]=0;d.at<Vec3b>(i,j)[0]=0;} 
+				}
+				else
+				{d.at<Vec3b>(i,j)[2]=0;d.at<Vec3b>(i,j)[1]=0;d.at<Vec3b>(i,j)[0]=0;} 
+				
+				
+	    	}	
+		}
+		
+		imshow("IMG1",d);
+		waitKey(1);
+	}
+	waitKey(0);
+}
